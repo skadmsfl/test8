@@ -1,5 +1,7 @@
 package com.example.test8
 
+import academy.learnprogramming.flickrbrowser.DownloadStatus
+import academy.learnprogramming.flickrbrowser.GetRawData
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
@@ -17,6 +19,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        val getRawData = GetRawData()
+        getRawData.execute("https://api.flickr.com/services/feeds/photos_public.gne?tags=android,oreo&format=json&nojsoncallback=1")
 
 //        fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -46,4 +51,13 @@ class MainActivity : AppCompatActivity() {
 //    companion object {
 //        private const val TAG = "MainActivity"
 //    }
+
+    fun onDownloadComplete(data: String, status: DownloadStatus) {
+        if (status == DownloadStatus.OK) {
+            Log.d(TAG, "onDownloadComplete called, data is $data")
+        } else {
+            // download failed
+            Log.d(TAG, "onDownloadCompleted failed with status $status. Error message is: $data")
+        }
+    }
 }
